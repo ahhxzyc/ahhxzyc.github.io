@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>Image Processing</title>
+    <style type="text/css">
+        body,html {
+            width:100%;
+            height:100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0
+        }
+    </style>
+</head>
+ 
+<body>
+    <canvas id="canvas"></canvas>
+    <!-- shader sources -->
+    <script type="x-shader/x-vertex" id="vs-source">
+        attribute vec2 a_position;
+        attribute vec2 a_texcoords;
+        
+        varying vec2 v_texcoords;
+
+        void main(){
+            gl_Position = vec4(a_position, 0, 1);
+            v_texcoords = a_texcoords;
+        }</script>
+    <script type="x-shader/x-fragment" id="fs-source">
+        precision mediump float;
+
+        uniform sampler2D u_image;
+        uniform float u_kernel[9];
+        uniform vec2 u_imagesize;
+
+        varying vec2 v_texcoords;
+        
+        void main(){
+            vec2 pix = vec2(1, 1) / u_imagesize;
+            vec2 k[9];
+            for (int i = 0; i < 3; i ++ ) {
+                k[3*i] = vec2(-1, i);
+                k[3*i + 1] = vec2(0, i);
+                k[3*i + 2] = vec2(1, i);
+            }
+            vec4 color = vec4(0, 0, 0, 1);
+            for (int i = 0; i < 9; i ++ ) {
+                color += texture2D(u_image, v_texcoords + k[i] * pix) * u_kernel[i];
+            }
+            gl_FragColor = color;
+        }</script>
+    <!-- libs -->
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+    <!-- my script -->
+    <script src="render.js"></script>
+    
+</body>
+ 
+</html>

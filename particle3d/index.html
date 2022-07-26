@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>PBD Rope</title>
+    <style type="text/css">
+        body,html {
+            width:100%;
+            height:100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0
+        }
+    </style>
+</head>
+ 
+<body>
+    <canvas id="canvas"></canvas>
+    <!-- shader sources -->
+    <script type="x-shader/x-vertex" id="vs-source">
+        attribute vec4 a_Position;
+        uniform mat4 m_trans;
+        void main(){
+            gl_Position = m_trans * a_Position;
+            gl_PointSize = 10.0;
+        }</script>
+    <script type="x-shader/x-fragment" id="fs-source">
+        precision mediump float;
+        void main(){
+            float d = distance(gl_PointCoord,vec2(0.5,0.5));
+            if(d<0.5){
+                gl_FragColor = vec4(0.2,0.3,0.5,1.0);
+            }else{
+                discard;
+            }
+        }</script>
+    <!-- libs -->
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+    <script src="matrix.js"></script>
+    <script src="constraint.js"></script>
+    <script src="physics.js"></script>
+    <!-- my script -->
+    <script src="render.js"></script>
+    
+</body>
+ 
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+ 
+<head>
+    <meta charset="utf-8" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>Image Processing</title>
+    <style type="text/css">
+        body,html {
+            width:100%;
+            height:100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0
+        }
+    </style>
+</head>
+ 
+<body>
+    <canvas id="canvas"></canvas>
+    <!-- shader sources -->
+    <script type="x-shader/x-vertex" id="vs-source">
+        attribute vec3 a_position;
+        attribute vec3 a_normal;
+        
+        varying vec3 v_normal;
+        
+        void main(){
+            gl_Position = vec4(a_position, 1);
+            v_normal = a_normal;
+        }</script>
+    <script type="x-shader/x-fragment" id="fs-source">
+        precision mediump float;
+
+        varying vec3 v_normal;
+        
+        void main(){
+            gl_FragColor = vec4(v_normal.xyz, 1);
+        }</script>
+    <!-- libs -->
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m3.js"></script>
+    <script src="matrix.js"></script>
+    <!-- my script -->
+    <script src="render.js"></script>
+    
+</body>
+ 
+</html>
